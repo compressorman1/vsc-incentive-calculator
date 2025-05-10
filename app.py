@@ -5,7 +5,7 @@ app = Flask(__name__)
 # Constants
 PRESCRIPTIVE_RATE = 200       # $ per HP
 KW_PER_HP = 0.7               # kW per HP
-ELECTRICITY_RATE = 0.14       # $ per kWh
+CUSTOM_INCENTIVE_RATE = 1200  # $ per kW of reduced capacity
 PRESCRIPTIVE_HP_CAP = 300     # HP cap for prescriptive incentive
 
 @app.route('/', methods=['GET', 'POST'])
@@ -23,15 +23,14 @@ def index():
         capped_hp = min(total_hp, PRESCRIPTIVE_HP_CAP)
         prescriptive_incentive = capped_hp * PRESCRIPTIVE_RATE
 
-        # Baseline energy use (kWh)
+        # Annual energy use (kWh)
         baseline_kw = total_hp * KW_PER_HP
-        energy_use = baseline_kw * annual_hours  # annual energy consumption
+        energy_use = baseline_kw * annual_hours
 
-        # Custom incentive based on energy savings from variable speed
-        reduced_kw = baseline_kw * percent_loaded
-        reduced_energy_use = reduced_kw * annual_hours
-        energy_savings = energy_use - reduced_energy_use
-        custom_incentive = energy_savings * ELECTRICITY_RATE
+        # Custom incentive: reduction in kW capacity times incentive rate
+        reduction_hp = total_hp * (1 - percent_loaded)
+        reduction_kw = reduction_hp * KW_PER_HP
+        custom_incentive = reduction_kw * CUSTOM_INCENTIVE_RATE
 
     return render_template(
         'index.html',
