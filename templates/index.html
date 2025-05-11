@@ -2,66 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Variable Speed Compressor Incentive Calculator</title>
   <style>
-    body { font-family: sans-serif; margin: 20px; }
-    .container { display: flex; flex-wrap: wrap; }
-    .form, .summary { flex: 1 1 300px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin: 10px; }
-    label { display: block; margin-top: 10px; font-weight: bold; }
-    input { width: 100%; padding: 6px; margin-top: 5px; box-sizing: border-box; }
+    body {
+      background: #f0f0f0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #333;
+    }
+    .app-container {
+      background: #fff;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: #fff;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: #C00000;
+    }
+    .content {
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
     .btn {
-  width: 100%;
-  padding: 12px;
-  background: #C00000;       /* CFM brand red */
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  text-transform: uppercase;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-   .btn:active {
-  background: #900000;       /* darker on press */
-    h1, h2 { margin-top: 0; }
+      width: 100%;
+      padding: 12px;
+      background: #C00000;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .btn:active {
+      background: #900000;
+    }
+    .results {
+      margin-top: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 15px;
+    }
+    .results h2 {
+      margin-top: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+    .results p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
-  <h1>Variable Speed Compressor Incentive Calculator</h1>
-  <div class="container">
-    <div class="form">
+  <div class="app-container">
+    <div class="header">
+      <h1>Variable Speed Compressor</h1>
+      <p>Incentive Calculator</p>
+    </div>
+    <div class="content">
       <form method="post">
-        <label>Total System HP</label>
-<input
-  type="number" step="0.01"
-  name="total_hp"
-  value="{{ total_hp }}"
-  required
-
-        <label>Percent Loaded (%)</label>
-<input
-  type="number" step="0.01"
-  name="percent_loaded"
-  value="{{ percent_loaded }}"
-  required
-        <label>Annual Hours Operated</label>
-<input
-  type="number" step="1"
-  name="annual_hours"
-  value="{{ annual_hours }}"
-  required
+        <div class="form-group">
+          <label for="total_hp">Total System HP</label>
+          <input type="number" step="0.01" id="total_hp" name="total_hp" value="{{ total_hp }}" required>
+        </div>
+        <div class="form-group">
+          <label for="percent_loaded">Percent Loaded (%)</label>
+          <input type="number" step="0.01" id="percent_loaded" name="percent_loaded" value="{{ percent_loaded }}" required>
+        </div>
+        <div class="form-group">
+          <label for="annual_hours">Annual Hours Operated</label>
+          <input type="number" step="1" id="annual_hours" name="annual_hours" value="{{ annual_hours }}" required>
+        </div>
         <button type="submit" class="btn">Calculate</button>
       </form>
-    </div>
-    <div class="summary">
       {% if prescriptive is not none %}
+      <div class="results">
         <h2>Results</h2>
         <p><strong>Prescriptive Incentive:</strong> ${{ prescriptive | round(2) }}</p>
         <p><strong>Energy Use:</strong> {{ energy_use | round(2) }} kWh</p>
         <p><strong>Custom Incentive:</strong> ${{ custom | round(2) }}</p>
-      {% else %}
-        <p>Enter your system specs and click Calculate to see results.</p>
+      </div>
       {% endif %}
     </div>
   </div>
