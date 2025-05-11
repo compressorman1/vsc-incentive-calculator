@@ -20,15 +20,25 @@
   <div class="container">
     <div class="form">
       <form method="post">
-        <label for="total_hp">Total System HP</label>
-        <input type="number" step="0.01" id="total_hp" name="total_hp" required>
+        <label>Total System HP</label>
+<input
+  type="number" step="0.01"
+  name="total_hp"
+  value="{{ total_hp }}"
+  required
 
-        <label for="percent_loaded">Percent Loaded (%)</label>
-        <input type="number" step="0.01" id="percent_loaded" name="percent_loaded" required>
-
-        <label for="annual_hours">Annual Hours Operated</label>
-        <input type="number" step="1" id="annual_hours" name="annual_hours" required>
-
+        <label>Percent Loaded (%)</label>
+<input
+  type="number" step="0.01"
+  name="percent_loaded"
+  value="{{ percent_loaded }}"
+  required
+        <label>Annual Hours Operated</label>
+<input
+  type="number" step="1"
+  name="annual_hours"
+  value="{{ annual_hours }}"
+  required
         <button type="submit" class="btn">Calculate</button>
       </form>
     </div>
